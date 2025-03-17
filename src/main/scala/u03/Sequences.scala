@@ -117,11 +117,12 @@ object Sequences: // Essentially, generic linkedlists
      * E.g., [10, 20, 10, 30] => [10, 20, 30]
      * E.g., [10, 20, 30] => [10, 20, 30]
      */
-    def distinct[A](s: Sequence[A]): Sequence[A] = ???
-//      def _din(s: Sequence[A], vals: Sequence[A], out: Sequence[A]) = s match
-//        case Cons(h, t) if contains(vals, h) => _din(s)
-//
-//      _din(s, Nil(), Nil())
+    def distinct[A](s: Sequence[A]): Sequence[A] =
+      def _din(s: Sequence[A], vals: Sequence[A]): Sequence[A] = s match
+        case Cons(h, t) if contains(vals)(h) => _din(t, vals)
+        case Cons(h, t) if !contains(vals)(h) => Cons(h, _din(t, Cons(h, vals)))
+        case _ => Nil()
+      _din(s, Nil())
 
     /*
      * Group contiguous elements in the sequence
