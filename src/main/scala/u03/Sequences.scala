@@ -145,11 +145,9 @@ object Sequences: // Essentially, generic linkedlists
      * E.g., [11, 20, 31] => ([20], [11, 31]) if pred is (_ % 2 == 0)
      */
     def partition[A](s: Sequence[A])(pred: A => Boolean): (Sequence[A], Sequence[A]) =
-      @tailrec
-      def _part(s: Sequence[A], pred: A => Boolean, a: Sequence[A], b: Sequence[A]): (Sequence[A], Sequence[A]) = s match
-        case Cons(h, t) => if (pred(h)) _part(t, pred, Cons(h, a), b) else _part(t, pred, a, Cons(h, b))
-        case _ => (reverse(a), reverse(b))
-      _part(s, pred, Nil(), Nil())
+      val a = filter(s)(pred)
+      val b = filter(s)(v => !pred(v))
+      (a, b)
 
   end Sequence
 end Sequences
