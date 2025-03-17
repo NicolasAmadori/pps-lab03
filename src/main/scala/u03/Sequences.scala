@@ -130,14 +130,26 @@ object Sequences: // Essentially, generic linkedlists
      * E.g., [10, 20, 30] => [[10], [20], [30]]
      * E.g., [10, 20, 20, 30] => [[10], [20, 20], [30]]
      */
-    def group[A](s: Sequence[A]): Sequence[Sequence[A]] = ???
+    def group[A](s: Sequence[A]): Sequence[Sequence[A]] =
+      def _group(s: Sequence[A], group: Sequence[A]): Sequence[Sequence[A]] = s match
+        case Cons(h1, Cons(h2, t)) if h1 == h2 => _group(Cons(h2, t), Cons(h1, group))
+        case Cons(h1, Cons(h2, t)) if h1 != h2 => Cons(Cons(h1, group), _group(Cons(h2, t), Nil()))
+        case Cons(h, Nil()) => Cons(Cons(h, group), Nil())
+        case _ => Nil()
+
+      _group(s, Nil())
 
     /*
      * Partition the sequence into two sequences based on the predicate
      * E.g., [10, 20, 30] => ([10], [20, 30]) if pred is (_ < 20)
      * E.g., [11, 20, 31] => ([20], [11, 31]) if pred is (_ % 2 == 0)
      */
-    def partition[A](s: Sequence[A])(pred: A => Boolean): (Sequence[A], Sequence[A]) = ???
+    def partition[A](s: Sequence[A])(pred: A => Boolean): (Sequence[A], Sequence[A]) =
+      @tailrec
+      def _part(s: Sequence[A], pred: A => Boolean, a: Sequence[A], b: Sequence[A]): (Sequence[A], Sequence[A]) = s match
+        case Cons(h, t) => if (pred(h)) _part(t, pred, Cons(h, a), b) else _part(t, pred, a, Cons(h, b))
+        case _ => (reverse(a), reverse(b))
+      _part(s, pred, Nil(), Nil())
 
   end Sequence
 end Sequences
