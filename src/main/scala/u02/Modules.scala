@@ -1,5 +1,8 @@
 package u02
 
+import u03.Sequences.Sequence
+import u03.Sequences.Sequence.{Cons, filter, flatMap, map, Nil}
+
 object Modules extends App:
 
   // An ADT: type + module
@@ -22,6 +25,18 @@ object Modules extends App:
   def isStudent(p: Person): Boolean = p match
     case Student(_, _) => true
     case _ => false
+
+  def getCourses(s: Sequence[Person]): Sequence[String] =
+//    map(filter(s)(p => !isStudent(p)))(p => p match
+//      case Teacher(_, c) => c)
+//    def getCourse(p: Person): String = p match
+//      case Teacher(_, c) => c
+
+    flatMap(s)(p => p match
+      case Teacher(_,c) => Cons(c, Nil())
+      case _ => Nil()
+      )
+
 
   println(isStudent(Student("mario", 2015)))
 end Modules

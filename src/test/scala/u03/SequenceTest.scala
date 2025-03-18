@@ -86,4 +86,10 @@ class SequenceTest:
     assertEquals(Nil(), evenEmpty)
     assertEquals(Nil(), oddEmpty)
 
+  @Test def testFoldLeft() =
+    val sequence = Cons(3, Cons(7, Cons(1, Cons(5, Nil()))))
+    val lst = Cons(3, Cons(7, Cons(1, Cons(5, Nil()))))
+    assertEquals(16, foldLeft(sequence)(0)(_ + _))
+    assertEquals(-16, foldLeft(lst)(0)(_ - _))
+
 end SequenceTest
