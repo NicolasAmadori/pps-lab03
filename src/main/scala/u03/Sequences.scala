@@ -149,9 +149,9 @@ object Sequences: // Essentially, generic linkedlists
       val b = filter(s)(v => !pred(v))
       (a, b)
 
-    def foldLeft[A](s: Sequence[A])(default: A)(operator: (A,A) => A): A =
+    def foldLeft[A, B](s: Sequence[A])(default: B)(operator: (B,A) => B): B =
       @tailrec
-      def _fleft(s: Sequence[A], acc: A): A = s match
+      def _fleft(s: Sequence[A], acc: B): B = s match
         case Cons(h, t) => _fleft(t, operator(acc, h))
         case _ => acc
       _fleft(s, default)

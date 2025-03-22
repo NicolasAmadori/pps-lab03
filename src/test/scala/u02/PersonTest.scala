@@ -2,7 +2,7 @@ package u02
 
 import org.junit.*
 import org.junit.Assert.*
-import u02.Modules.{Person, getCourses}
+import u02.Modules.{Person, getCourses, countCourses}
 import u02.Modules.Person.{Student, Teacher}
 import u03.Sequences.Sequence
 import u03.Sequences.Sequence.{Cons, Nil}
@@ -20,3 +20,9 @@ class PersonTest:
     val courses: Sequence[String] = Cons("matematica", Cons("informatica", Nil()))
     assertEquals(courses, getCourses(sequence1))
     assertEquals(Nil(), getCourses(sequence2))
+
+  @Test def testCountCourses() =
+    val sequence1: Sequence[Person] = Cons(p1, Cons(p2, Cons(p3, Nil())))
+    val sequence2: Sequence[Person] = Cons(p3, Cons(p4, Nil()))
+    assertEquals(2, countCourses(sequence1))
+    assertEquals(0, countCourses(sequence2))

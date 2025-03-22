@@ -1,7 +1,7 @@
 package u02
 
 import u03.Sequences.Sequence
-import u03.Sequences.Sequence.{Cons, filter, flatMap, map, Nil}
+import u03.Sequences.Sequence.{Cons, Nil, filter, flatMap, foldLeft, map}
 
 object Modules extends App:
 
@@ -27,15 +27,13 @@ object Modules extends App:
     case _ => false
 
   def getCourses(s: Sequence[Person]): Sequence[String] =
-//    map(filter(s)(p => !isStudent(p)))(p => p match
-//      case Teacher(_, c) => c)
-//    def getCourse(p: Person): String = p match
-//      case Teacher(_, c) => c
-
     flatMap(s)(p => p match
       case Teacher(_,c) => Cons(c, Nil())
       case _ => Nil()
       )
+
+  def countCourses(s: Sequence[Person]): Int =
+    foldLeft(getCourses(s))(0)((c, p2) => c + 1)
 
 
   println(isStudent(Student("mario", 2015)))
